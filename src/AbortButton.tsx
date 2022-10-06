@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {FC} from "react";
 
 const StyledButton = styled.button`
   flex-grow: 1;
@@ -12,7 +13,11 @@ const StyledButton = styled.button`
   }
 `;
 
-const AbortButton = () => {
-    return <StyledButton>HALT STOP!</StyledButton>
+type AbortButtonProps = {
+    onClick(): void
+}
+
+const AbortButton: FC<AbortButtonProps> = (props) => {
+    return <StyledButton onClick={props.onClick}>HALT STOP!</StyledButton>
 };
 export default AbortButton;
