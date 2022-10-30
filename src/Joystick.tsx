@@ -7,16 +7,19 @@ const Box = styled.div`
 `;
 
 type JoystickProps = {
+    steerSensitivity: number
+    speedSensitivity: number
     onChange(steer: number, speed: number): void
 }
 
-const Joystick : FC<JoystickProps> = (props) => {
+const Joystick: FC<JoystickProps> = (props) => {
     const boxRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const options = {
             zone: boxRef.current as HTMLElement,
-            dynamicPage: true
+            dynamicPage: true,
+            size: 250
         }
         const nipple = nipplejs.create(options);
 
@@ -24,20 +27,16 @@ const Joystick : FC<JoystickProps> = (props) => {
             props.onChange(0, 0);
         });
         nipple.on('move', (e, data) => {
-            // console.log(data);
-            // console.log(data.vector);
+            const steer = Math.floor(data.vector.x * 1000) * props.steerSensitivity;
+            const speed = Math.floor(data.vector.y * 1000) * props.speedSensitivity;
 
-            const steer = Math.floor(data.vector.x * 1000);
-            const speed = Math.floor(data.vector.y * 1000);
-
-            console.log(steer, speed);
             props.onChange(steer, speed);
         });
 
         return () => {
             nipple.destroy();
         };
-    }, []);
+    }, [props.steerSensitivity, props.speedSensitivity]);
 
     return <Box ref={boxRef}/>
 };

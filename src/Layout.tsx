@@ -28,6 +28,22 @@ const ContentContainer = styled.div`
   flex-grow: 1;
 `;
 
+const SensitivityControlContainer = styled.div`
+  & > * {
+    display: flex;
+    height: 40px;
+    align-items: center;
+  }
+  
+  & > * > :nth-child(1) {
+    width: 60px;
+  }
+  
+  & > * > :nth-child(2) {
+    flex-grow: 1;
+  }
+`;
+
 const JoystickContainer = styled.div`
   height: 33%;
   display: flex;
@@ -43,6 +59,7 @@ const AbortButtonContainer = styled.div`
 `;
 
 type LayoutProps = {
+    sensitivityControls: ReactNode
     joystick: ReactNode
     abortButton: ReactNode
 }
@@ -54,6 +71,7 @@ const Layout: FC<PropsWithChildren<LayoutProps>> = (props) => {
             <ContentContainer>
                 {props.children}
             </ContentContainer>
+            {props.sensitivityControls && <SensitivityControlContainer>{props.sensitivityControls}</SensitivityControlContainer>}
             {props.joystick && <JoystickContainer>{props.joystick}</JoystickContainer>}
             {props.abortButton && <AbortButtonContainer>{props.abortButton}</AbortButtonContainer>}
         </Container>
